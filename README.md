@@ -1,6 +1,5 @@
 
-faster-rcnn upcompatible with caffe master for supporting the latest cuDNN
-5.1.5
+### faster-rcnn `upcompatible` with `caffe/master` for supporting the latest cuDNN 5.1.5
 
 ### Disclaimer
 
