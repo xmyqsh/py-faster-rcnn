@@ -8,7 +8,7 @@ The official Faster R-CNN code (written in MATLAB) is available [here](https://g
 If your goal is to reproduce the results in our NIPS 2015 paper, please use the [official code](https://github.com/ShaoqingRen/faster_rcnn).
 
 This repository contains a Python *reimplementation* of the MATLAB code.
-This Python implementation is built on a fork of [Fast R-CNN](https://github.com/rbgirshick/fast-rcnn).
+This Python implementation is built on a fork of [Fast R-CNN](https://github.com/xmyqsh/fast-rcnn).
 There are slight differences between the two implementations.
 In particular, this Python port
  - is ~10% slower at test-time, because some operations execute on the CPU in Python layers (e.g., 220ms / image vs. 200ms / image for VGG16)
@@ -78,7 +78,7 @@ If you find Faster R-CNN useful in your research, please consider citing:
 1. Clone the Faster R-CNN repository
   ```Shell
   # Make sure to clone with --recursive
-  git clone --recursive https://github.com/rbgirshick/py-faster-rcnn.git
+  git clone --recursive https://github.com/xmyqsh/py-faster-rcnn.git
   ```
 
 2. We'll call the directory that you cloned Faster R-CNN into `FRCN_ROOT`
