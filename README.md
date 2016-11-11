@@ -1,6 +1,8 @@
 
 ### faster-rcnn `upcompatible` with `caffe/master` for supporting the latest cuDNN 5.1.5
 
+---
+
 ### Disclaimer
 
 The official Faster R-CNN code (written in MATLAB) is available [here](https://github.com/ShaoqingRen/faster_rcnn).
