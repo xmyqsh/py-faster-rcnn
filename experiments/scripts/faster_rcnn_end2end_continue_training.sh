@@ -59,7 +59,7 @@ time ./tools/train_net.py --gpu ${GPU_ID} \
   --weights output/foobar/${TRAIN_IMDB}/${NET_lower}_faster_rcnn_iter_${ITER}.caffemodel \
   --imdb ${TRAIN_IMDB} \
   --iters ${ITERS} \
-  --cfg experiments/cfgs/faster_rcnn_end2end.yml \
+  --cfg experiments/cfgs/faster_rcnn_end2end_continue_training.yml \
   ${EXTRA_ARGS}
 
 # Currently not support.
@@ -74,5 +74,5 @@ time ./tools/test_net.py --gpu ${GPU_ID} \
   --def models/${PT_DIR}/${NET}/faster_rcnn_end2end/test.prototxt \
   --net ${NET_FINAL} \
   --imdb ${TEST_IMDB} \
-  --cfg experiments/cfgs/faster_rcnn_end2end.yml \
+  --cfg experiments/cfgs/faster_rcnn_end2end_continue_training.yml \
   ${EXTRA_ARGS}
