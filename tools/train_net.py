@@ -34,6 +34,9 @@ def parse_args():
     parser.add_argument('--iters', dest='max_iters',
                         help='number of iterations to train',
                         default=40000, type=int)
+    parser.add_argument('--snapshot', dest='snapshotted_solver_state',
+                        help='Optional; the snapshot solver state to resume training.',
+                        default=None, type=str)
     parser.add_argument('--weights', dest='pretrained_model',
                         help='initialize with pretrained model weights',
                         default=None, type=str)
@@ -108,5 +111,6 @@ if __name__ == '__main__':
     print 'Output will be saved to `{:s}`'.format(output_dir)
 
     train_net(args.solver, roidb, output_dir,
+              snapshotted_solver_state=args.snapshotted_solver_state,
               pretrained_model=args.pretrained_model,
               max_iters=args.max_iters)

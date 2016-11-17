@@ -24,6 +24,7 @@ class SolverWrapper(object):
     """
 
     def __init__(self, solver_prototxt, roidb, output_dir,
+                 snapshotted_solver_state=None,
                  pretrained_model=None):
         """Initialize the SolverWrapper."""
         self.output_dir = output_dir
@@ -41,7 +42,14 @@ class SolverWrapper(object):
             print 'done'
 
         self.solver = caffe.SGDSolver(solver_prototxt)
-        if pretrained_model is not None:
+
+        if snapshotted_solver_state is not None:
+            # TODO(xmyqsh): Bugs need to fit: SGDSolver.history_ not match with the snapshot's.
+            #               Avoid blob reshape during forward step in ROIDateLayer may fix this problem.
+            print('Resume the snapshot solver state '
+                  'from {:s}').format(snapshotted_solver_state)
+            self.solver.restore(snapshotted_solver_state)
+        elif pretrained_model is not None:
             print ('Loading pretrained model '
                    'weights from {:s}').format(pretrained_model)
             self.solver.net.copy_from(pretrained_model)
@@ -149,11 +157,13 @@ def filter_roidb(roidb):
     return filtered_roidb
 
 def train_net(solver_prototxt, roidb, output_dir,
+              snapshotted_solver_state=None,
               pretrained_model=None, max_iters=40000):
     """Train a Fast R-CNN network."""
 
     roidb = filter_roidb(roidb)
     sw = SolverWrapper(solver_prototxt, roidb, output_dir,
+                       snapshotted_solver_state=snapshotted_solver_state,
                        pretrained_model=pretrained_model)
 
     print 'Solving...'
