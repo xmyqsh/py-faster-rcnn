@@ -58,7 +58,7 @@ time ./tools/train_net.py --gpu ${GPU_ID} \
   ${EXTRA_ARGS}
 
 set +x
-NET_FINAL=`grep -B 1 "done solving" ${LOG} | grep "Snapshotting to binary proto file" | awk '{print $10}'`
+NET_FINAL=`grep -B 2 "done solving" ${LOG} | grep "Snapshotting to binary proto file" | awk '{print $10}'`
 set -x
 
 time ./tools/test_net.py --gpu ${GPU_ID} \
