@@ -5,6 +5,7 @@
 #
 # Example:
 # ./experiments/scripts/faster_rcnn_end2end_from_snapshot.sh 0 VGG_CNN_M_1024 pascal_voc \
+#   output/foobar/voc_2007_trainval/VGG_CNN_M_1024_faster_rcnn_iter_10000.solverstate \
 #   --set EXP_DIR foobar RNG_SEED 42 TRAIN.SCALES "[400, 500, 600, 700]"
 
 set -x
