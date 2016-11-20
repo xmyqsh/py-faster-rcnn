@@ -11,4 +11,4 @@ weight_decay: 0.0005
 # function
 snapshot: 0
 # We still use the snapshot prefix, though
-snapshot_prefix: "vgg_cnn_m_1024_faster_rcnn"
+snapshot_prefix: "output/foobar/voc_2007_trainval/vgg_cnn_m_1024_faster_rcnn"
