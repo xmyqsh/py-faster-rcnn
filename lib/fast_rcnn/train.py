@@ -44,9 +44,6 @@ class SolverWrapper(object):
         self.solver = caffe.SGDSolver(solver_prototxt)
 
         if snapshotted_solver_state is not None:
-            # Done.
-            # TODO(xmyqsh): Bugs need to fit: SGDSolver.history_ not match with the snapshot's.
-            #               Avoid blob reshape during forward step in ROIDateLayer may fix this problem.
             print('Resume the snapshot solver state '
                   'from {:s}').format(snapshotted_solver_state)
             self.solver.restore(snapshotted_solver_state)
@@ -84,29 +81,17 @@ class SolverWrapper(object):
                     (net.params['bbox_pred'][1].data *
                      self.bbox_stds + self.bbox_means)
 
-        '''
-        infix = ('_' + cfg.TRAIN.SNAPSHOT_INFIX
-                 if cfg.TRAIN.SNAPSHOT_INFIX != '' else '')
-        filename = (self.solver_param.snapshot_prefix + infix +
-                    '_iter_{:d}'.format(self.solver.iter) + '.caffemodel')
-        filename = os.path.join(self.output_dir, filename)
-
-        net.save(str(filename))
-        print 'Wrote snapshot to: {:s}'.format(filename)
-        '''
         self.solver.snapshot()
 
         if scale_bbox_params:
             # restore net to original state
             net.params['bbox_pred'][0].data[...] = orig_0
             net.params['bbox_pred'][1].data[...] = orig_1
-        # return filename
 
     def train_model(self, max_iters):
         """Network training loop."""
         last_snapshot_iter = -1
         timer = Timer()
-        # model_paths = []
         while self.solver.iter < max_iters:
             # Make one SGD update
             timer.tic()
@@ -117,13 +102,10 @@ class SolverWrapper(object):
 
             if self.solver.iter % cfg.TRAIN.SNAPSHOT_ITERS == 0:
                 last_snapshot_iter = self.solver.iter
-                # model_paths.append(self.snapshot())
                 self.snapshot()
 
         if last_snapshot_iter != self.solver.iter:
-            # model_paths.append(self.snapshot())
             model_paths.append(self.snapshot())
-        #return model_paths
 
 def get_training_roidb(imdb):
     """Returns a roidb (Region of Interest database) for use in training."""
