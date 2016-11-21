@@ -105,7 +105,8 @@ class SolverWrapper(object):
                 self.snapshot()
 
         if last_snapshot_iter != self.solver.iter:
-            model_paths.append(self.snapshot())
+            #model_paths.append(self.snapshot())
+            self.snapshot()
 
 def get_training_roidb(imdb):
     """Returns a roidb (Region of Interest database) for use in training."""
