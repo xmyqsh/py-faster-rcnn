@@ -9,9 +9,16 @@
 
 __sets = {}
 
+from datasets.ucar_driveless import ucar_driveless
 from datasets.pascal_voc import pascal_voc
 from datasets.coco import coco
 import numpy as np
+
+# Set up ucd_<bg/nobg>_<split>
+for bg_or_not in ['bg', 'nobg']:
+    for split in ['train', 'val', 'trainval', 'test', 'submit']:
+        name = 'ucd_{}_{}'.format(bg_or_not, split)
+        __sets[name] = (lambda split=split, bg_or_not=bg_or_not: ucar_driveless(split, bg_or_not))
 
 # Set up voc_<year>_<split> using selective search "fast" mode
 for year in ['2007', '2012', '0712']:
