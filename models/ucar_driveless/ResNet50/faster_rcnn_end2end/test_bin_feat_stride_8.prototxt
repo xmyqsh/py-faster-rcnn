@@ -1,30 +1,27 @@
 name: "ResNet-50"
-layer {
-  name: 'input-data'
-  type: 'Python'
-  top: 'data'
-  top: 'im_info'
-  top: 'gt_boxes'
-  python_param {
-    module: 'roi_data_layer.layer'
-    layer: 'RoIDataLayer'
-    param_str: "'num_classes': 2"
-  }
+input: "data"
+input_shape {
+  dim: 1
+  dim: 3
+  dim: 224
+  dim: 224
+}
+input: "im_info"
+input_shape {
+  dim: 1
+  dim: 3
 }
 layer {
   name: "conv1"
   bottom: "data"
   top: "conv1"
   type: "Convolution"
-  param { lr_mult: 0 decay_mult: 0 }
-  param { lr_mult: 0 decay_mult: 0 }
   convolution_param {
     num_output: 64
     kernel_size: 7
     pad: 3
     stride: 2
-    weight_filler { type: "msra" std: 0.010 }
-    bias_filler { type: "constant" value: 0 }
+    bias_term: true
   }
 }
 layer {
@@ -35,9 +32,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale_conv1"
@@ -47,7 +41,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "conv1_relu"
@@ -71,14 +64,12 @@ layer {
   bottom: "pool1"
   top: "res2a_branch2a"
   type: "Convolution"
-  param { lr_mult: 0 decay_mult: 0 }
   convolution_param {
     num_output: 64
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -89,9 +80,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale2a_branch2a"
@@ -101,7 +89,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res2a_branch2a_relu"
@@ -114,14 +101,12 @@ layer {
   bottom: "res2a_branch2a"
   top: "res2a_branch2b"
   type: "Convolution"
-  param { lr_mult: 0 decay_mult: 0 }
   convolution_param {
     num_output: 64
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -132,9 +117,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale2a_branch2b"
@@ -144,7 +126,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res2a_branch2b_relu"
@@ -157,14 +138,12 @@ layer {
   bottom: "res2a_branch2b"
   top: "res2a_branch2c"
   type: "Convolution"
-  param { lr_mult: 0 decay_mult: 0 }
   convolution_param {
     num_output: 256
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -175,9 +154,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale2a_branch2c"
@@ -187,21 +163,18 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res2a_branch1"
   bottom: "pool1"
   top: "res2a_branch1"
   type: "Convolution"
-  param { lr_mult: 0 decay_mult: 0 }
   convolution_param {
     num_output: 256
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -212,9 +185,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale2a_branch1"
@@ -224,7 +194,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res2a"
@@ -244,14 +213,12 @@ layer {
   bottom: "res2a"
   top: "res2b_branch2a"
   type: "Convolution"
-  param { lr_mult: 0 decay_mult: 0 }
   convolution_param {
     num_output: 64
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -262,9 +229,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale2b_branch2a"
@@ -274,7 +238,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res2b_branch2a_relu"
@@ -287,14 +250,12 @@ layer {
   bottom: "res2b_branch2a"
   top: "res2b_branch2b"
   type: "Convolution"
-  param { lr_mult: 0 decay_mult: 0 }
   convolution_param {
     num_output: 64
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -305,9 +266,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale2b_branch2b"
@@ -317,7 +275,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res2b_branch2b_relu"
@@ -330,14 +287,12 @@ layer {
   bottom: "res2b_branch2b"
   top: "res2b_branch2c"
   type: "Convolution"
-  param { lr_mult: 0 decay_mult: 0 }
   convolution_param {
     num_output: 256
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -348,9 +303,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale2b_branch2c"
@@ -360,7 +312,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res2b"
@@ -380,14 +331,12 @@ layer {
   bottom: "res2b"
   top: "res2c_branch2a"
   type: "Convolution"
-  param { lr_mult: 0 decay_mult: 0 }
   convolution_param {
     num_output: 64
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -398,9 +347,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale2c_branch2a"
@@ -410,7 +356,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res2c_branch2a_relu"
@@ -423,14 +368,12 @@ layer {
   bottom: "res2c_branch2a"
   top: "res2c_branch2b"
   type: "Convolution"
-  param { lr_mult: 0 decay_mult: 0 }
   convolution_param {
     num_output: 64
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -441,9 +384,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale2c_branch2b"
@@ -453,7 +393,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res2c_branch2b_relu"
@@ -466,14 +405,12 @@ layer {
   bottom: "res2c_branch2b"
   top: "res2c_branch2c"
   type: "Convolution"
-  param { lr_mult: 0 decay_mult: 0 }
   convolution_param {
     num_output: 256
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -484,9 +421,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale2c_branch2c"
@@ -496,7 +430,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res2c"
@@ -516,14 +449,12 @@ layer {
   bottom: "res2c"
   top: "res3a_branch2a"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 128
     kernel_size: 1
     pad: 0
     stride: 2
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -534,9 +465,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale3a_branch2a"
@@ -546,7 +474,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res3a_branch2a_relu"
@@ -559,14 +486,12 @@ layer {
   bottom: "res3a_branch2a"
   top: "res3a_branch2b"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 128
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -577,9 +502,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale3a_branch2b"
@@ -589,7 +511,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res3a_branch2b_relu"
@@ -602,14 +523,12 @@ layer {
   bottom: "res3a_branch2b"
   top: "res3a_branch2c"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 512
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -620,9 +539,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale3a_branch2c"
@@ -632,21 +548,18 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res3a_branch1"
   bottom: "res2c"
   top: "res3a_branch1"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 512
     kernel_size: 1
     pad: 0
     stride: 2
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -657,9 +570,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale3a_branch1"
@@ -669,7 +579,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res3a"
@@ -689,14 +598,12 @@ layer {
   bottom: "res3a"
   top: "res3b_branch2a"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 128
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -707,9 +614,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale3b_branch2a"
@@ -719,7 +623,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res3b_branch2a_relu"
@@ -732,14 +635,12 @@ layer {
   bottom: "res3b_branch2a"
   top: "res3b_branch2b"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 128
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -750,9 +651,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale3b_branch2b"
@@ -762,7 +660,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res3b_branch2b_relu"
@@ -775,14 +672,12 @@ layer {
   bottom: "res3b_branch2b"
   top: "res3b_branch2c"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 512
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -793,9 +688,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale3b_branch2c"
@@ -805,7 +697,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res3b"
@@ -825,14 +716,12 @@ layer {
   bottom: "res3b"
   top: "res3c_branch2a"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 128
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -843,9 +732,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale3c_branch2a"
@@ -855,7 +741,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res3c_branch2a_relu"
@@ -868,14 +753,12 @@ layer {
   bottom: "res3c_branch2a"
   top: "res3c_branch2b"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 128
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -886,9 +769,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale3c_branch2b"
@@ -898,7 +778,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res3c_branch2b_relu"
@@ -911,14 +790,12 @@ layer {
   bottom: "res3c_branch2b"
   top: "res3c_branch2c"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 512
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -929,9 +806,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale3c_branch2c"
@@ -941,7 +815,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res3c"
@@ -961,14 +834,12 @@ layer {
   bottom: "res3c"
   top: "res3d_branch2a"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 128
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -979,9 +850,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale3d_branch2a"
@@ -991,7 +859,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res3d_branch2a_relu"
@@ -1004,14 +871,12 @@ layer {
   bottom: "res3d_branch2a"
   top: "res3d_branch2b"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 128
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1022,9 +887,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale3d_branch2b"
@@ -1034,7 +896,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res3d_branch2b_relu"
@@ -1047,14 +908,12 @@ layer {
   bottom: "res3d_branch2b"
   top: "res3d_branch2c"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 512
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1065,9 +924,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale3d_branch2c"
@@ -1077,7 +933,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res3d"
@@ -1148,48 +1003,6 @@ layer {
    type: "Reshape"
    reshape_param { shape { dim: 0 dim: 2 dim: -1 dim: 0 } }
 }
-layer {
-  name: 'rpn-data'
-  type: 'Python'
-  bottom: 'rpn_cls_score'
-  bottom: 'gt_boxes'
-  bottom: 'im_info'
-  bottom: 'data'
-  top: 'rpn_labels'
-  top: 'rpn_bbox_targets'
-  top: 'rpn_bbox_inside_weights'
-  top: 'rpn_bbox_outside_weights'
-  python_param {
-    module: 'rpn.anchor_target_layer'
-    layer: 'AnchorTargetLayer'
-    param_str: "'feat_stride': 8"
-  }
-}
-layer {
-  name: "rpn_loss_cls"
-  type: "SoftmaxWithLoss"
-  bottom: "rpn_cls_score_reshape"
-  bottom: "rpn_labels"
-  propagate_down: 1
-  propagate_down: 0
-  top: "rpn_cls_loss"
-  loss_weight: 1
-  loss_param {
-    ignore_label: -1
-    normalize: true
-  }
-}
-layer {
-  name: "rpn_loss_bbox"
-  type: "SmoothL1Loss"
-  bottom: "rpn_bbox_pred"
-  bottom: "rpn_bbox_targets"
-  bottom: 'rpn_bbox_inside_weights'
-  bottom: 'rpn_bbox_outside_weights'
-  top: "rpn_loss_bbox"
-  loss_weight: 1
-  smooth_l1_loss_param { sigma: 3.0 }
-}
 #============== ROI Proposal ===============
 layer {
   name: "rpn_cls_prob"
@@ -1210,27 +1023,11 @@ layer {
   bottom: 'rpn_cls_prob_reshape'
   bottom: 'rpn_bbox_pred'
   bottom: 'im_info'
-  top: 'rpn_rois'
+  top: 'rois'
   python_param {
     module: 'rpn.proposal_layer'
     layer: 'ProposalLayer'
     param_str: "'feat_stride': 8"
-  }
-}
-layer {
-  name: 'roi-data'
-  type: 'Python'
-  bottom: 'rpn_rois'
-  bottom: 'gt_boxes'
-  top: 'rois'
-  top: 'labels'
-  top: 'bbox_targets'
-  top: 'bbox_inside_weights'
-  top: 'bbox_outside_weights'
-  python_param {
-    module: 'rpn.proposal_target_layer'
-    layer: 'ProposalTargetLayer'
-    param_str: "'num_classes': 2"
   }
 }
 #============== RCNN ===============
@@ -1251,14 +1048,12 @@ layer {
   bottom: "roi_pool4"
   top: "res4a_branch2a"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 256
     kernel_size: 1
     pad: 0
     stride: 2
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1269,9 +1064,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4a_branch2a"
@@ -1281,7 +1073,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res4a_branch2a_relu"
@@ -1294,14 +1085,12 @@ layer {
   bottom: "res4a_branch2a"
   top: "res4a_branch2b"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 256
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1312,9 +1101,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4a_branch2b"
@@ -1324,7 +1110,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res4a_branch2b_relu"
@@ -1337,14 +1122,12 @@ layer {
   bottom: "res4a_branch2b"
   top: "res4a_branch2c"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 1024
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1355,9 +1138,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4a_branch2c"
@@ -1367,21 +1147,18 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res4a_branch1"
   bottom: "roi_pool4"
   top: "res4a_branch1"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 1024
     kernel_size: 1
     pad: 0
     stride: 2
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1392,9 +1169,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4a_branch1"
@@ -1404,7 +1178,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res4a"
@@ -1424,14 +1197,12 @@ layer {
   bottom: "res4a"
   top: "res4b_branch2a"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 256
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1442,9 +1213,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4b_branch2a"
@@ -1454,7 +1222,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res4b_branch2a_relu"
@@ -1467,14 +1234,12 @@ layer {
   bottom: "res4b_branch2a"
   top: "res4b_branch2b"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 256
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1485,9 +1250,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4b_branch2b"
@@ -1497,7 +1259,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res4b_branch2b_relu"
@@ -1510,14 +1271,12 @@ layer {
   bottom: "res4b_branch2b"
   top: "res4b_branch2c"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 1024
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1528,9 +1287,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4b_branch2c"
@@ -1540,7 +1296,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res4b"
@@ -1560,14 +1315,12 @@ layer {
   bottom: "res4b"
   top: "res4c_branch2a"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 256
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1578,9 +1331,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4c_branch2a"
@@ -1590,7 +1340,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res4c_branch2a_relu"
@@ -1603,14 +1352,12 @@ layer {
   bottom: "res4c_branch2a"
   top: "res4c_branch2b"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 256
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1621,9 +1368,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4c_branch2b"
@@ -1633,7 +1377,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res4c_branch2b_relu"
@@ -1646,14 +1389,12 @@ layer {
   bottom: "res4c_branch2b"
   top: "res4c_branch2c"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 1024
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1664,9 +1405,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4c_branch2c"
@@ -1676,7 +1414,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res4c"
@@ -1696,14 +1433,12 @@ layer {
   bottom: "res4c"
   top: "res4d_branch2a"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 256
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1714,9 +1449,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4d_branch2a"
@@ -1726,7 +1458,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res4d_branch2a_relu"
@@ -1739,14 +1470,12 @@ layer {
   bottom: "res4d_branch2a"
   top: "res4d_branch2b"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 256
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1757,9 +1486,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4d_branch2b"
@@ -1769,7 +1495,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res4d_branch2b_relu"
@@ -1782,14 +1507,12 @@ layer {
   bottom: "res4d_branch2b"
   top: "res4d_branch2c"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 1024
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1800,9 +1523,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4d_branch2c"
@@ -1812,7 +1532,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res4d"
@@ -1832,14 +1551,12 @@ layer {
   bottom: "res4d"
   top: "res4e_branch2a"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 256
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1850,9 +1567,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4e_branch2a"
@@ -1862,7 +1576,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res4e_branch2a_relu"
@@ -1875,14 +1588,12 @@ layer {
   bottom: "res4e_branch2a"
   top: "res4e_branch2b"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 256
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1893,9 +1604,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4e_branch2b"
@@ -1905,7 +1613,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res4e_branch2b_relu"
@@ -1918,14 +1625,12 @@ layer {
   bottom: "res4e_branch2b"
   top: "res4e_branch2c"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 1024
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1936,9 +1641,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4e_branch2c"
@@ -1948,7 +1650,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res4e"
@@ -1968,14 +1669,12 @@ layer {
   bottom: "res4e"
   top: "res4f_branch2a"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 256
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -1986,9 +1685,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4f_branch2a"
@@ -1998,7 +1694,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res4f_branch2a_relu"
@@ -2011,14 +1706,12 @@ layer {
   bottom: "res4f_branch2a"
   top: "res4f_branch2b"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 256
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2029,9 +1722,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4f_branch2b"
@@ -2041,7 +1731,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res4f_branch2b_relu"
@@ -2054,14 +1743,12 @@ layer {
   bottom: "res4f_branch2b"
   top: "res4f_branch2c"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 1024
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2072,9 +1759,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale4f_branch2c"
@@ -2084,7 +1768,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res4f"
@@ -2104,14 +1787,12 @@ layer {
   bottom: "res4f"
   top: "res5a_branch2a"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 512
     kernel_size: 1
     pad: 0
     stride: 2
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2122,9 +1803,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale5a_branch2a"
@@ -2134,7 +1812,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res5a_branch2a_relu"
@@ -2147,14 +1824,12 @@ layer {
   bottom: "res5a_branch2a"
   top: "res5a_branch2b"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 512
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2165,9 +1840,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale5a_branch2b"
@@ -2177,7 +1849,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res5a_branch2b_relu"
@@ -2190,14 +1861,12 @@ layer {
   bottom: "res5a_branch2b"
   top: "res5a_branch2c"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 2048
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2208,9 +1877,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale5a_branch2c"
@@ -2220,21 +1886,18 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res5a_branch1"
   bottom: "res4f"
   top: "res5a_branch1"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 2048
     kernel_size: 1
     pad: 0
     stride: 2
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2245,9 +1908,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale5a_branch1"
@@ -2257,7 +1917,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res5a"
@@ -2277,14 +1936,12 @@ layer {
   bottom: "res5a"
   top: "res5b_branch2a"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 512
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2295,9 +1952,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale5b_branch2a"
@@ -2307,7 +1961,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res5b_branch2a_relu"
@@ -2320,14 +1973,12 @@ layer {
   bottom: "res5b_branch2a"
   top: "res5b_branch2b"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 512
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2338,9 +1989,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale5b_branch2b"
@@ -2350,7 +1998,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res5b_branch2b_relu"
@@ -2363,14 +2010,12 @@ layer {
   bottom: "res5b_branch2b"
   top: "res5b_branch2c"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 2048
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2381,9 +2026,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale5b_branch2c"
@@ -2393,7 +2035,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res5b"
@@ -2413,14 +2054,12 @@ layer {
   bottom: "res5b"
   top: "res5c_branch2a"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 512
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2431,9 +2070,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale5c_branch2a"
@@ -2443,7 +2079,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res5c_branch2a_relu"
@@ -2456,14 +2091,12 @@ layer {
   bottom: "res5c_branch2a"
   top: "res5c_branch2b"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 512
     kernel_size: 3
     pad: 1
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2474,9 +2107,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale5c_branch2b"
@@ -2486,7 +2116,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
   name: "res5c_branch2b_relu"
@@ -2499,14 +2128,12 @@ layer {
   bottom: "res5c_branch2b"
   top: "res5c_branch2c"
   type: "Convolution"
-  param { lr_mult: 1 decay_mult: 1 }
   convolution_param {
     num_output: 2048
     kernel_size: 1
     pad: 0
     stride: 1
     bias_term: false
-    weight_filler { type: "msra" std: 0.010 }
   }
 }
 layer {
@@ -2517,9 +2144,6 @@ layer {
   batch_norm_param {
     use_global_stats: true
   }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
-  param { lr_mult: 0 }
 }
 layer {
   name: "scale5c_branch2c"
@@ -2529,7 +2153,6 @@ layer {
   scale_param {
     bias_term: true
   }
-  param { lr_mult: 0 }
 }
 layer {
 	name: "res5c"
@@ -2582,22 +2205,8 @@ layer {
   }
 }
 layer {
-  name: "loss_cls"
-  type: "SoftmaxWithLoss"
+  name: "cls_prob"
+  type: "Softmax"
   bottom: "cls_score"
-  bottom: "labels"
-  propagate_down: 1
-  propagate_down: 0
-  top: "loss_cls"
-  loss_weight: 1
-}
-layer {
-  name: "loss_bbox"
-  type: "SmoothL1Loss"
-  bottom: "bbox_pred"
-  bottom: "bbox_targets"
-  bottom: "bbox_inside_weights"
-  bottom: "bbox_outside_weights"
-  top: "loss_bbox"
-  loss_weight: 1
+  top: "cls_prob"
 }
