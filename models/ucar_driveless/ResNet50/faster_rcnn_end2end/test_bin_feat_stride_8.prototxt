@@ -1038,8 +1038,8 @@ layer {
   bottom: "rois"
   top: "roi_pool4"
   roi_pooling_param {
-    pooled_w: 14
-    pooled_h: 14
+    pooled_w: 28
+    pooled_h: 28
     spatial_scale: 0.062500
   }
 }
