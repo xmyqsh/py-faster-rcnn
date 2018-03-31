@@ -36,7 +36,7 @@ __global__ void nms_kernel(const int n_boxes, const float nms_overlap_thresh,
   const int row_start = blockIdx.y;
   const int col_start = blockIdx.x;
 
-  // if (row_start > col_start) return;
+  if (row_start > col_start) return;
 
   const int row_size =
         min(n_boxes - row_start * threadsPerBlock, threadsPerBlock);
@@ -64,12 +64,9 @@ __global__ void nms_kernel(const int n_boxes, const float nms_overlap_thresh,
     int i = 0;
     unsigned long long t = 0;
     int start = 0;
-    /*
     if (row_start == col_start) {
       start = threadIdx.x + 1;
     }
-    */
-    start = threadIdx.x + 1;
     for (i = start; i < col_size; i++) {
       if (devIoU(cur_box, block_boxes + i * 5) > nms_overlap_thresh) {
         t |= 1ULL << i;
